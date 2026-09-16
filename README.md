@@ -51,6 +51,13 @@ Vite redirige `/api` al backend, así que no hace falta configurar nada más.
 | `frontend` | `npm run dev`   | Interfaz en modo desarrollo           |
 | `frontend` | `npm run build` | Compila a `frontend/dist`             |
 
+## Documentación
+
+- [`docs/INSTALACION.md`](docs/INSTALACION.md) — cómo mover el proyecto a otra máquina e
+  instalar todo desde cero, con solución de problemas frecuentes.
+- [`docs/PRESENTACION.md`](docs/PRESENTACION.md) — tecnologías, arquitectura, modelo de
+  datos, decisiones de diseño, guion de demostración y preguntas probables.
+
 ## Estructura
 
 ```
