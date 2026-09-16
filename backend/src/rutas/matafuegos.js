@@ -5,6 +5,13 @@ import { ruta, fallar, SQL_PROXIMO_VENCIMIENTO } from '../ayudas.js';
 const router = Router();
 const CAMPOS = ['direccion_id', 'numero_tarjeta', 'tipo_agente', 'capacidad', 'unidad_capacidad', 'fecha_fabricacion', 'estado'];
 
+// Campos con valor por defecto en la base: si no vienen, se completan aca
+// (mandar NULL explicito falla porque la columna es NOT NULL).
+const POR_DEFECTO = { estado: 'en_cliente', unidad_capacidad: 'kg' };
+
+const aValores = (body) =>
+  CAMPOS.map((c) => body[c] ?? POR_DEFECTO[c] ?? null);
+
 function validar(body) {
   if (!body.direccion_id) fallar(400, 'Falta la direccion donde esta instalado');
   if (!body.numero_tarjeta?.trim()) fallar(400, 'El numero de tarjeta es obligatorio');
@@ -49,7 +56,7 @@ router.get('/:id', ruta(async (req, res) => {
 
 router.post('/', ruta(async (req, res) => {
   validar(req.body);
-  const valores = CAMPOS.map((c) => req.body[c] ?? null);
+  const valores = aValores(req.body);
   try {
     const [r] = await db.query(
       `INSERT INTO matafuegos (${CAMPOS.join(',')}) VALUES (${CAMPOS.map(() => '?').join(',')})`,
@@ -64,7 +71,7 @@ router.post('/', ruta(async (req, res) => {
 
 router.put('/:id', ruta(async (req, res) => {
   validar(req.body);
-  const valores = CAMPOS.map((c) => req.body[c] ?? null);
+  const valores = aValores(req.body);
   try {
     const [r] = await db.query(
       `UPDATE matafuegos SET ${CAMPOS.map((c) => `${c} = ?`).join(', ')} WHERE id = ?`,
