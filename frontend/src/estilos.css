@@ -112,3 +112,35 @@ td.acciones { display: flex; gap: 6px; justify-content: flex-end; }
 .ficha div { display: flex; gap: 8px; border-bottom: 1px solid var(--borde); padding-bottom: 4px; }
 .ficha dt { font-size: 13px; color: #555; min-width: 150px; }
 .ficha dd { margin: 0; font-weight: 500; }
+
+/* --- Insumos y ordenes --- */
+.aviso {
+  background: #fdf0cd; color: #8a6100;
+  padding: 8px 10px; border-radius: 5px; margin: 0 0 12px;
+}
+.etiqueta.verde { background: #d7f0dc; color: #1c6b31; }
+.total { text-align: right; font-size: 17px; font-weight: 600; margin: 14px 0 0; }
+.observaciones { color: #555; font-style: italic; }
+button.quitar { align-self: flex-end; margin-bottom: 10px; }
+
+.remito-cabecera {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  border-bottom: 2px solid var(--rojo); padding-bottom: 10px; margin-bottom: 14px;
+}
+.remito-cabecera h3 { margin: 0; font-size: 16px; }
+.remito-cabecera p { margin: 4px 0 0; color: #555; }
+.remito h4 { margin: 16px 0 8px; font-size: 14px; }
+.firmas {
+  display: flex; justify-content: space-between; gap: 40px;
+  margin-top: 48px; color: #555; font-size: 13px;
+}
+.firmas span { flex: 1; border-top: 1px solid var(--texto); padding-top: 6px; text-align: center; }
+
+/* Al imprimir queda solo el remito, sin la interfaz alrededor. */
+@media print {
+  body { background: #fff; }
+  .app, .fondo-modal { position: static; padding: 0; background: none; }
+  header, nav, main, .modal-cabecera, .sin-imprimir { display: none !important; }
+  .modal { max-width: none; box-shadow: none; padding: 0; }
+  .remito { display: block; }
+}

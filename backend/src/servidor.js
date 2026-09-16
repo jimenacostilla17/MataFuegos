@@ -4,6 +4,8 @@ import direcciones from './rutas/direcciones.js';
 import matafuegos from './rutas/matafuegos.js';
 import mantenimientos from './rutas/mantenimientos.js';
 import alertas from './rutas/alertas.js';
+import insumos from './rutas/insumos.js';
+import ordenes from './rutas/ordenes.js';
 
 const app = express();
 app.use(express.json());
@@ -13,6 +15,8 @@ app.use('/api/direcciones', direcciones);
 app.use('/api/matafuegos', matafuegos);
 app.use('/api/mantenimientos', mantenimientos);
 app.use('/api/alertas', alertas);
+app.use('/api/insumos', insumos);
+app.use('/api/ordenes', ordenes);
 
 // Manejo unico de errores: cualquier throw en una ruta termina aca.
 app.use((err, req, res, next) => {

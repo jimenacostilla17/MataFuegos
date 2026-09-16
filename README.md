@@ -76,8 +76,21 @@ frontend/src/
 | Matafuegos (ficha) | Implementado |
 | Mantenimientos     | Implementado |
 | Alertas y vencimientos | Implementado |
-| Facturación y stock | Pendiente |
-| Órdenes de servicio / remitos | Pendiente |
+| Facturación y stock | Implementado |
+| Órdenes de servicio / remitos | Implementado |
+
+## Órdenes de servicio
+
+La orden de servicio funciona como remito de entrega: lista los equipos devueltos con el
+trabajo realizado y su próximo vencimiento, más los insumos consumidos con su total.
+Se imprime desde el navegador (botón *Imprimir*).
+
+No es una factura fiscal: no lleva numeración AFIP, IVA ni condición fiscal, porque el
+requerimiento no los pide.
+
+El alta descuenta el stock de los insumos dentro de la misma transacción que crea la
+orden: si algún insumo no alcanza, no se guarda nada. Anular una orden devuelve al stock
+lo que había consumido.
 
 ## Cómo se calculan los vencimientos
 

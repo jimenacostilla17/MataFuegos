@@ -44,4 +44,17 @@ export const api = {
   alertas: {
     listar: (dias) => pedir(`/alertas${qs({ dias })}`),
   },
+  insumos: {
+    listar: (f) => pedir(`/insumos${qs(f)}`),
+    crear: (body) => pedir('/insumos', { method: 'POST', body }),
+    actualizar: (id, body) => pedir(`/insumos/${id}`, { method: 'PUT', body }),
+    borrar: (id) => pedir(`/insumos/${id}`, { method: 'DELETE' }),
+  },
+  ordenes: {
+    listar: () => pedir('/ordenes'),
+    obtener: (id) => pedir(`/ordenes/${id}`),
+    crear: (body) => pedir('/ordenes', { method: 'POST', body }),
+    entregar: (id) => pedir(`/ordenes/${id}/entregar`, { method: 'POST' }),
+    borrar: (id) => pedir(`/ordenes/${id}`, { method: 'DELETE' }),
+  },
 };
