@@ -1,0 +1,114 @@
+:root {
+  --rojo: #c62828;
+  --rojo-oscuro: #8e1f1f;
+  --texto: #1f2328;
+  --borde: #d8dce0;
+  --fondo: #f5f6f8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, "Segoe UI", sans-serif;
+  color: var(--texto);
+  background: var(--fondo);
+  font-size: 15px;
+}
+
+.app { max-width: 1200px; margin: 0 auto; padding: 0 16px 48px; }
+
+header { padding: 20px 0 0; }
+header h1 { margin: 0 0 12px; font-size: 22px; color: var(--rojo); }
+
+nav { display: flex; gap: 4px; border-bottom: 2px solid var(--borde); }
+nav button {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 10px 16px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #555;
+}
+nav button.activa { color: var(--rojo); border-bottom-color: var(--rojo); font-weight: 600; }
+
+main { margin-top: 20px; }
+
+.barra { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.barra h2 { margin: 0; font-size: 18px; margin-right: auto; }
+
+input, select, textarea {
+  padding: 7px 9px;
+  border: 1px solid var(--borde);
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+}
+input:focus, select:focus { outline: 2px solid var(--rojo); outline-offset: -1px; }
+
+button {
+  padding: 7px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 5px;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { background: #eceef1; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+button.primario { background: var(--rojo); border-color: var(--rojo); color: #fff; }
+button.primario:hover:not(:disabled) { background: var(--rojo-oscuro); }
+button.peligro { color: var(--rojo); }
+button.enlace {
+  border: none; background: none; padding: 0;
+  color: #0b5ed7; text-decoration: underline; cursor: pointer;
+}
+
+table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--borde); border-radius: 6px; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--borde); }
+th { background: #eceef1; font-size: 13px; text-transform: uppercase; letter-spacing: .03em; }
+tbody tr:last-child td { border-bottom: none; }
+td.acciones { display: flex; gap: 6px; justify-content: flex-end; }
+
+.vacio { text-align: center; color: #777; padding: 16px; }
+
+.etiqueta {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  background: #e3e6ea; font-size: 12px; text-transform: capitalize;
+}
+.etiqueta.roja { background: #fadbdb; color: var(--rojo-oscuro); }
+.etiqueta.amarilla { background: #fdf0cd; color: #8a6100; }
+.fila-vencida { background: #fff6f6; }
+
+.error {
+  background: #fadbdb; color: var(--rojo-oscuro);
+  padding: 8px 10px; border-radius: 5px; margin: 10px 0;
+}
+
+.fondo-modal {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, .45);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 40px 16px; overflow: auto; z-index: 10;
+}
+.modal { background: #fff; border-radius: 8px; padding: 18px; width: 100%; max-width: 760px; }
+.modal-cabecera { display: flex; align-items: center; margin-bottom: 12px; }
+.modal-cabecera h3 { margin: 0; font-size: 17px; margin-right: auto; }
+.modal-cabecera .cerrar { border: none; background: none; font-size: 24px; line-height: 1; padding: 0 6px; }
+
+.campo { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; flex: 1; }
+.campo span { font-size: 13px; color: #555; }
+.campo.en-linea { flex-direction: row; align-items: center; margin: 0; flex: none; }
+.fila { display: flex; gap: 10px; }
+
+.sub-formulario { border-top: 1px solid var(--borde); margin-top: 16px; padding-top: 12px; }
+.sub-formulario h4, .modal h4 { margin: 0 0 10px; font-size: 15px; }
+
+.acciones-modal { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+
+.ficha { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 20px; margin: 0 0 18px; }
+.ficha div { display: flex; gap: 8px; border-bottom: 1px solid var(--borde); padding-bottom: 4px; }
+.ficha dt { font-size: 13px; color: #555; min-width: 150px; }
+.ficha dd { margin: 0; font-weight: 500; }
