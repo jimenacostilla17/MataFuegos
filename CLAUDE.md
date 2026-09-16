@@ -68,7 +68,20 @@ terminar. Continuar solo cuando el usuario confirme.
 
 ## Comandos
 
-Todavía no hay código. Completar cuando exista el proyecto.
+| Carpeta    | Comando         | Qué hace                         |
+|------------|-----------------|----------------------------------|
+| `backend`  | `npm run dev`   | Express en http://localhost:3001 |
+| `backend`  | `npm start`     | Servidor sin recarga             |
+| `frontend` | `npm run dev`   | Vite en http://localhost:5173    |
+| `frontend` | `npm run build` | Compila a `frontend/dist`        |
+
+La base se crea ejecutando `db/esquema.sql` en Workbench. El backend lee las
+credenciales de `backend/.env` (plantilla en `backend/.env.example`). Vite redirige
+`/api` al backend, por eso no hay configuración de CORS.
+
+Decisión pendiente de confirmar con el usuario: el PDF no indica cada cuánto vence una
+recarga; se asumió **1 año** (la prueba hidráulica sí figura: 5 años). Está en
+`ANIOS_POR_TIPO`, en `backend/src/ayudas.js`.
 
 ## Dominio: gestión de servicio de matafuegos
 
