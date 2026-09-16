@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { Error } from '../componentes.jsx';
-
-const formatear = (f) => (f ? f.split('-').reverse().join('/') : '-');
+import { fecha as formatear, domicilio } from '../formato.js';
 
 function diasRestantes(fecha) {
   const hoy = new Date();
@@ -53,7 +52,7 @@ export default function Alertas() {
                   <td>{f.numero_tarjeta}</td>
                   <td>{f.tipo_agente} {f.capacidad} {f.unidad_capacidad}</td>
                   <td>{f.razon_social}</td>
-                  <td>{f.etiqueta} - {f.calle} {f.numero}, {f.localidad}</td>
+                  <td>{f.etiqueta} - {domicilio(f)}</td>
                   <td>{f.telefono || f.email || '-'}</td>
                   <td>{formatear(f.proximo_vencimiento)}</td>
                   <td>

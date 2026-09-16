@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { Modal, Campo, Error } from '../componentes.jsx';
+import { fecha as formatear, domicilio } from '../formato.js';
 
 const AGENTES = ['Agua', 'Polvo ABC', 'Polvo BC', 'CO2', 'Espuma AFFF', 'Halotron']
   .map((a) => ({ valor: a, texto: a }));
@@ -14,8 +15,6 @@ const VACIO = {
   direccion_id: '', numero_tarjeta: '', tipo_agente: '', capacidad: '',
   unidad_capacidad: 'kg', fecha_fabricacion: '', estado: 'en_cliente',
 };
-
-const formatear = (f) => (f ? f.split('-').reverse().join('/') : '-');
 
 export default function Matafuegos() {
   const [filas, setFilas] = useState([]);
@@ -46,7 +45,7 @@ export default function Matafuegos() {
 
   const opcionesDireccion = direcciones.map((d) => ({
     valor: d.id,
-    texto: `${d.razon_social} - ${d.etiqueta} (${d.calle} ${d.numero || ''}, ${d.localidad})`,
+    texto: `${d.razon_social} - ${d.etiqueta} (${domicilio(d)})`,
   }));
 
   return (
@@ -202,7 +201,7 @@ function Ficha({ id, onCerrar }) {
         <div><dt>Capacidad</dt><dd>{equipo.capacidad} {equipo.unidad_capacidad}</dd></div>
         <div><dt>Fabricacion</dt><dd>{formatear(equipo.fecha_fabricacion)}</dd></div>
         <div><dt>Cliente</dt><dd>{equipo.razon_social}</dd></div>
-        <div><dt>Ubicacion</dt><dd>{equipo.etiqueta} - {equipo.calle} {equipo.numero}, {equipo.localidad}</dd></div>
+        <div><dt>Ubicacion</dt><dd>{equipo.etiqueta} - {domicilio(equipo)}</dd></div>
         <div><dt>Proximo vencimiento</dt><dd>{formatear(equipo.proximo_vencimiento)}</dd></div>
       </dl>
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { Modal, Campo, Error } from '../componentes.jsx';
+import { pesos } from '../formato.js';
 
 const VACIO = { nombre: '', unidad_medida: '', stock: '', stock_minimo: '', precio_unitario: '' };
-const pesos = (n) => Number(n).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
 
 export default function Insumos() {
   const [filas, setFilas] = useState([]);
@@ -47,8 +47,8 @@ export default function Insumos() {
             <tr key={i.id} className={i.bajo_minimo ? 'fila-vencida' : ''}>
               <td>{i.nombre}</td>
               <td>
-                {Number(i.stock)} {i.unidad_medida}
-                {i.bajo_minimo ? <span className="etiqueta roja"> reponer</span> : null}
+                {Number(i.stock)} {i.unidad_medida}{' '}
+                {i.bajo_minimo ? <span className="etiqueta roja">reponer</span> : null}
               </td>
               <td>{Number(i.stock_minimo)} {i.unidad_medida}</td>
               <td>{pesos(i.precio_unitario)}</td>

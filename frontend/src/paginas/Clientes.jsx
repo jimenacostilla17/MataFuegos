@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { Modal, Campo, Error } from '../componentes.jsx';
+import { domicilio } from '../formato.js';
 
 const TIPOS = ['particular', 'comercio', 'consorcio', 'industria'].map((t) => ({ valor: t, texto: t }));
 const CLIENTE_VACIO = { tipo: '', razon_social: '', documento: '', telefono: '', email: '' };
@@ -163,7 +164,7 @@ function Direcciones({ cliente, onCerrar }) {
           {filas.map((d) => (
             <tr key={d.id}>
               <td>{d.etiqueta}</td>
-              <td>{d.calle} {d.numero} {d.piso_depto}, {d.localidad}</td>
+              <td>{domicilio(d)}</td>
               <td>{d.cantidad_matafuegos}</td>
               <td className="acciones">
                 <button onClick={() => setEditando(d)}>Editar</button>

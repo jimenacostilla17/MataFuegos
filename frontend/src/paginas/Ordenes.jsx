@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { Modal, Campo, Error } from '../componentes.jsx';
-
-const pesos = (n) => Number(n).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
-const formatear = (f) => (f ? f.split('-').reverse().join('/') : '-');
+import { fecha as formatear, pesos, domicilio } from '../formato.js';
 
 export default function Ordenes() {
   const [filas, setFilas] = useState([]);
@@ -249,7 +247,7 @@ function Remito({ id, onCerrar }) {
         <dl className="ficha">
           <div><dt>Cliente</dt><dd>{orden.razon_social}</dd></div>
           <div><dt>CUIT / DNI</dt><dd>{orden.documento || '-'}</dd></div>
-          <div><dt>Direccion</dt><dd>{orden.etiqueta} - {orden.calle} {orden.direccion_numero} {orden.piso_depto}, {orden.localidad}</dd></div>
+          <div><dt>Direccion</dt><dd>{orden.etiqueta} - {domicilio({ ...orden, numero: orden.direccion_numero })}</dd></div>
           <div><dt>Telefono</dt><dd>{orden.telefono || '-'}</dd></div>
         </dl>
 
