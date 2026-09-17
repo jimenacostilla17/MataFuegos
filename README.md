@@ -21,6 +21,12 @@ Crea la base `matafuegos` con todas sus tablas.
 > El script empieza con `DROP DATABASE IF EXISTS matafuegos`: al ejecutarlo de nuevo se
 > borra todo lo cargado.
 
+Opcionalmente, ejecutar después `db/datos-demo.sql` para cargar un juego de datos de
+prueba: 10 clientes de los cuatro tipos, 15 direcciones, 30 matafuegos, historial de
+mantenimientos, 8 insumos y 3 órdenes de servicio. Las fechas son relativas al día en que
+se ejecuta, así que el panel de vencimientos siempre muestra equipos vencidos y por
+vencer.
+
 ### 2. Backend
 
 ```bash

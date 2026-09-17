@@ -503,8 +503,12 @@ celular, historial de precios de insumos, y reportes de facturación por períod
 Ocho minutos, en este orden. La secuencia está armada para que cada paso construya sobre
 el anterior y el último cierre el círculo.
 
-**Antes de empezar:** los dos servidores levantados y el navegador abierto en
-http://localhost:5173.
+**Antes de empezar:** los dos servidores levantados, los datos de demostración cargados
+(`db/datos-demo.sql`) y el navegador abierto en http://localhost:5173.
+
+Con esos datos el panel abre mostrando **9 equipos** de 6 clientes distintos: 4 ya
+vencidos —uno hace 62 días— y 5 por vencer dentro del mes. Eso da material para señalar
+sin tener que cargar nada en vivo.
 
 | # | Qué mostrar | Qué decir mientras tanto |
 |---|---|---|

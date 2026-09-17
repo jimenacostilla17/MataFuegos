@@ -110,6 +110,28 @@ Tiene que aparecer el esquema `matafuegos` con **8 tablas**: `clientes`, `direcc
 > **borra la base y todo lo cargado** antes de crearla de nuevo. En una máquina nueva es
 > lo que querés. En una que ya está funcionando, ejecutarlo borra todos los datos.
 
+### Datos de demostración (opcional pero recomendado)
+
+Con la base recién creada, el sistema arranca vacío. Para verlo funcionando con datos
+—y para mostrarlo en una exposición— hay un segundo script.
+
+Repetir los pasos 3 y 4 de arriba pero abriendo `db/datos-demo.sql`. Carga:
+
+| | |
+|---|---|
+| 10 clientes | de los cuatro tipos, uno dado de baja |
+| 15 direcciones | consorcios con varias torres, industrias con dos plantas |
+| 30 matafuegos | distintos agentes, capacidades y estados |
+| 28 mantenimientos | recargas y pruebas hidráulicas |
+| 8 insumos | tres por debajo del stock mínimo |
+| 3 órdenes | una entregada y dos pendientes |
+
+Las fechas son **relativas al día en que se ejecuta**, así que el panel de vencimientos
+siempre muestra equipos vencidos y equipos por vencer, sin importar cuándo se corra.
+
+> Este script también borra lo que haya cargado: es para dejar la base en un estado
+> conocido, no para agregar datos a una base en uso.
+
 ---
 
 ## 4. Configurar la conexión
