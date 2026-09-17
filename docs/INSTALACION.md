@@ -9,7 +9,7 @@ Tiempo estimado: 20-30 minutos, la mayor parte esperando descargas.
 
 1. [Qué hay que llevarse](#1-qué-hay-que-llevarse)
 2. [Programas a instalar](#2-programas-a-instalar)
-3. [Crear la base de datos](#3-crear-la-base-de-datos)
+3. [Crear la base de datos](#3-crear-la-base-de-datos) y cargar datos de demostración
 4. [Configurar la conexión](#4-configurar-la-conexión)
 5. [Instalar las dependencias](#5-instalar-las-dependencias)
 6. [Levantar el sistema](#6-levantar-el-sistema)
@@ -43,6 +43,7 @@ Lo que **sí** tiene que viajar:
 | `frontend/src/`, `frontend/index.html`, `frontend/vite.config.js` | Interfaz |
 | `frontend/package.json` | Lista de dependencias de la interfaz |
 | `db/esquema.sql` | Script que crea la base |
+| `db/datos-demo.sql` | Datos de demostración (opcional) |
 | `README.md`, `docs/` | Documentación |
 
 ---
@@ -200,7 +201,7 @@ Lo que se instala está fijado en los `package.json`:
 | frontend | `vite` | 6.4.3 | Servidor de desarrollo y empaquetado |
 | frontend | `@vitejs/plugin-react` | 4.7.0 | Soporte de JSX |
 
-Son cinco paquetes directos en total: el proyecto se mantuvo deliberadamente con las
+Son seis paquetes directos en total: el proyecto se mantuvo deliberadamente con las
 mínimas dependencias posibles.
 
 ---
