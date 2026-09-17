@@ -144,3 +144,22 @@ button.quitar { align-self: flex-end; margin-bottom: 10px; }
   .modal { max-width: none; box-shadow: none; padding: 0; }
   .remito { display: block; }
 }
+
+/* --- Factura --- */
+.factura-numero { text-align: right; }
+.factura-numero strong { font-size: 20px; letter-spacing: .08em; }
+.factura-numero p { margin: 2px 0 0; color: #555; }
+.sello-anulada {
+  color: var(--rojo); border: 3px solid var(--rojo); border-radius: 6px;
+  font-size: 22px; font-weight: 700; letter-spacing: .15em; text-align: center;
+  padding: 6px; margin: 0 0 12px; opacity: .8;
+}
+.totales { margin: 14px 0 0; margin-left: auto; width: 320px; }
+.totales div { display: flex; justify-content: space-between; padding: 4px 0; }
+.totales dt { color: #555; }
+.totales dd { margin: 0; font-weight: 500; }
+.totales .total-final {
+  border-top: 2px solid var(--texto); margin-top: 4px; padding-top: 8px; font-size: 18px;
+}
+.totales .total-final dt, .totales .total-final dd { font-weight: 700; color: var(--texto); }
+.nota-legal { color: #777; font-size: 12px; text-align: center; margin-top: 24px; }

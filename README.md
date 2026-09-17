@@ -91,6 +91,7 @@ frontend/src/
 | Alertas y vencimientos | Implementado |
 | Facturación y stock | Implementado |
 | Órdenes de servicio / remitos | Implementado |
+| Facturación | Implementado |
 
 ## Órdenes de servicio
 
@@ -98,8 +99,10 @@ La orden de servicio funciona como remito de entrega: lista los equipos devuelto
 trabajo realizado y su próximo vencimiento, más los insumos consumidos con su total.
 Se imprime desde el navegador (botón *Imprimir*).
 
-No es una factura fiscal: no lleva numeración AFIP, IVA ni condición fiscal, porque el
-requerimiento no los pide.
+El remito acredita la **entrega** del equipo. El cobro se documenta aparte, en el módulo
+de Facturas: cada orden se factura una sola vez, la factura toma el importe de la orden
+como neto, le suma IVA 21% y se imprime. No es un comprobante fiscal: no tiene numeración
+AFIP ni CAE.
 
 El alta descuenta el stock de los insumos dentro de la misma transacción que crea la
 orden: si algún insumo no alcanza, no se guarda nada. Anular una orden devuelve al stock

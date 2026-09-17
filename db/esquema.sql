@@ -108,6 +108,28 @@ CREATE TABLE orden_matafuegos (
   CONSTRAINT fk_om_mantenimiento FOREIGN KEY (mantenimiento_id) REFERENCES mantenimientos(id)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------
+-- Factura: se emite a partir de una orden de servicio.
+-- El remito acredita la entrega del equipo; la factura, el cobro.
+-- Una orden se factura una sola vez (orden_id es UNIQUE).
+-- ---------------------------------------------------------------
+CREATE TABLE facturas (
+  id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  numero        VARCHAR(20) NOT NULL UNIQUE,
+  orden_id      INT UNSIGNED NOT NULL UNIQUE,
+  cliente_id    INT UNSIGNED NOT NULL,
+  fecha         DATE NOT NULL,
+  condicion_iva ENUM('responsable_inscripto','monotributo','consumidor_final','exento')
+                NOT NULL DEFAULT 'consumidor_final',
+  neto          DECIMAL(10,2) NOT NULL,
+  alicuota_iva  DECIMAL(5,2)  NOT NULL DEFAULT 21.00 COMMENT 'se guarda la usada al emitir',
+  iva           DECIMAL(10,2) NOT NULL,
+  total         DECIMAL(10,2) NOT NULL,
+  anulada       TINYINT(1)    NOT NULL DEFAULT 0 COMMENT 'una factura no se borra, se anula',
+  CONSTRAINT fk_facturas_orden   FOREIGN KEY (orden_id) REFERENCES ordenes_servicio(id),
+  CONSTRAINT fk_facturas_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+) ENGINE=InnoDB;
+
 -- Insumos consumidos: descuentan stock al confirmar la orden
 CREATE TABLE orden_insumos (
   id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

@@ -10,6 +10,7 @@
 USE matafuegos;
 
 SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE facturas;
 TRUNCATE TABLE orden_insumos;
 TRUNCATE TABLE orden_matafuegos;
 TRUNCATE TABLE ordenes_servicio;
@@ -189,5 +190,16 @@ INSERT INTO orden_insumos (orden_id, insumo_id, cantidad, precio_unitario) VALUE
 UPDATE ordenes_servicio o
    SET total = (SELECT COALESCE(SUM(oi.cantidad * oi.precio_unitario), 0)
                   FROM orden_insumos oi WHERE oi.orden_id = o.id);
+
+-- ===============================================================
+-- FACTURA — emitida sobre la orden ya entregada.
+-- Las otras dos ordenes quedan sin facturar para poder mostrar el
+-- alta en vivo.
+-- ===============================================================
+INSERT INTO facturas (id, numero, orden_id, cliente_id, fecha, condicion_iva, neto, alicuota_iva, iva, total, anulada)
+SELECT 1, 'FC-000001', o.id, o.cliente_id, DATE_SUB(CURDATE(), INTERVAL 19 DAY),
+       'responsable_inscripto', o.total, 21.00,
+       ROUND(o.total * 0.21, 2), ROUND(o.total * 1.21, 2), 0
+  FROM ordenes_servicio o WHERE o.numero = 'OS-000001';
 
 SELECT 'Datos de demostracion cargados' AS resultado;

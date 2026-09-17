@@ -50,6 +50,13 @@ export const api = {
     actualizar: (id, body) => pedir(`/insumos/${id}`, { method: 'PUT', body }),
     borrar: (id) => pedir(`/insumos/${id}`, { method: 'DELETE' }),
   },
+  facturas: {
+    listar: () => pedir('/facturas'),
+    pendientes: () => pedir('/facturas/pendientes'),
+    obtener: (id) => pedir(`/facturas/${id}`),
+    crear: (body) => pedir('/facturas', { method: 'POST', body }),
+    anular: (id) => pedir(`/facturas/${id}/anular`, { method: 'POST' }),
+  },
   ordenes: {
     listar: () => pedir('/ordenes'),
     obtener: (id) => pedir(`/ordenes/${id}`),

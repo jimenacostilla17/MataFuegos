@@ -145,6 +145,10 @@ router.delete('/:id', ruta(async (req, res) => {
   const conexion = await db.getConnection();
   try {
     await conexion.beginTransaction();
+    const [[{ facturada }]] = await conexion.query(
+      'SELECT COUNT(*) AS facturada FROM facturas WHERE orden_id = ?', [req.params.id]
+    );
+    if (facturada) fallar(409, 'No se puede anular: la orden ya fue facturada. Anule primero la factura');
     const [consumos] = await conexion.query(
       'SELECT insumo_id, cantidad FROM orden_insumos WHERE orden_id = ?', [req.params.id]
     );

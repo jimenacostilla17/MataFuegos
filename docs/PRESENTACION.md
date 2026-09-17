@@ -60,6 +60,7 @@ Seis módulos, los que pide el requerimiento:
 | **Mantenimientos** | Historial de recargas y pruebas hidráulicas, con vencimiento calculado |
 | **Alertas** | Panel de equipos que vencen en los próximos 30 días, con el contacto del cliente |
 | **Stock y remitos** | Insumos del taller y orden de servicio que descuenta lo consumido |
+| **Facturación** | Factura emitida sobre la orden, con neto, IVA y total |
 
 ---
 
@@ -109,13 +110,13 @@ Tres capas separadas, cada una con una única responsabilidad:
                          │  (Vite redirige /api al backend)
 ┌────────────────────────▼─────────────────────────────────────┐
 │  SERVIDOR                                                    │
-│  Express — 28 endpoints REST, validaciones, transacciones    │
+│  Express — 33 endpoints REST, validaciones, transacciones    │
 │  Puerto 3001                                                 │
 └────────────────────────┬─────────────────────────────────────┘
                          │  SQL parametrizado (mysql2)
 ┌────────────────────────▼─────────────────────────────────────┐
 │  BASE DE DATOS                                               │
-│  MySQL 8 — 8 tablas, claves foráneas, integridad referencial │
+│  MySQL 8 — 9 tablas, claves foráneas, integridad referencial │
 │  Puerto 3306                                                 │
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -178,7 +179,7 @@ se toca un solo archivo.
 
 ## 5. Modelo de datos
 
-Ocho tablas. El diagrama entidad-relación se genera desde MySQL Workbench con
+Nueve tablas. El diagrama entidad-relación se genera desde MySQL Workbench con
 **Database → Reverse Engineer** sobre el esquema `matafuegos` (pasos detallados en
 `docs/INSTALACION.md`).
 
@@ -220,6 +221,7 @@ dirección es una entidad propia y no un campo de texto dentro del cliente.
 | `mantenimientos` | Cada recarga y prueba hidráulica | Guarda su propia `fecha_vencimiento` |
 | `insumos` | Polvo, manómetros, mangueras | Con stock actual, mínimo y precio |
 | `ordenes_servicio` | Cabecera del remito | Numeración propia `OS-000001` |
+| `facturas` | Comprobante de cobro | `orden_id` UNIQUE: una orden se factura una vez |
 | `orden_matafuegos` | Qué equipos incluye la orden | Enlaza con el mantenimiento realizado |
 | `orden_insumos` | Qué insumos consumió | Guarda el precio del momento |
 
@@ -381,11 +383,20 @@ SQL se puede probar en Workbench y explicar línea por línea.
 teniendo historial que vale la pena conservar. Un insumo mal cargado no: se borra, salvo
 que ya figure en una orden emitida.
 
-**3. Remito operativo, no factura fiscal.** El requerimiento pide "orden de servicio /
-remito de entrega" y no menciona IVA, CAE ni condición fiscal. Se implementó el documento
-que el taller necesita para entregar el equipo, sin la maquinaria de facturación
-electrónica que nadie pidió. Es una decisión de alcance, y es defendible: agregar
-numeración AFIP habría sido inventar requisitos.
+**3. Remito y factura son documentos distintos.** El remito acredita que el equipo se
+entregó; la factura, que el trabajo se cobra. Son dos hechos separados y por eso son dos
+tablas: una orden de servicio puede existir sin factura (trabajo entregado, todavía no
+facturado), pero no al revés.
+
+La factura no permite escribir importes a mano: toma el total de la orden como neto, le
+suma IVA 21% y calcula el total. Eso evita que el papel del cobro diga una cosa y el del
+trabajo otra. Una orden se factura **una sola vez** (`orden_id` es UNIQUE) y una factura
+emitida no se borra: se anula y queda en el historial, porque un comprobante emitido es un
+hecho, no un borrador.
+
+Lo que sí se dejó afuera es la **facturación electrónica**: no hay numeración AFIP ni CAE,
+y el documento lo dice explícitamente. El requerimiento pide facturación, no integración
+con el organismo fiscal; agregar el web service de AFIP habría sido inventar requisitos.
 
 **4. El proxy en lugar de CORS.** Configurar CORS es la solución habitual cuando el
 frontend y la API están en puertos distintos. El proxy de Vite hace que compartan origen,
@@ -461,14 +472,14 @@ excepción, no hay pantalla en blanco— y solo se detecta mirando el resultado 
 
 | | |
 |---|---|
-| Líneas de código | ~1.970 |
-| Tablas | 8 |
-| Endpoints REST | 28 |
-| Pantallas | 5 |
+| Líneas de código | ~2.570 |
+| Tablas | 9 |
+| Endpoints REST | 33 |
+| Pantallas | 6 |
 | Dependencias directas | 6 |
-| Archivos de código | 22 |
+| Archivos de código | 25 |
 
-Reparto: backend ~600 líneas, frontend ~1.250, esquema SQL 120.
+Reparto: backend ~710 líneas, frontend ~1.510, esquema SQL ~150.
 
 ---
 
@@ -523,6 +534,8 @@ sin tener que cargar nada en vivo.
 | 9 | Emitir una **orden**, tildar el equipo, cargar 5 kg de polvo | "Mirá el stock antes de confirmar." |
 | 10 | Mostrar el **stock descontado** | "El descuento va en la misma transacción que la orden. No se puede registrar el trabajo sin descontar lo que consumió." |
 | 11 | Abrir el **remito** e imprimir | "Al imprimir desaparece la interfaz y queda solo el documento, con las dos firmas." |
+| 12 | **Facturas → Nueva factura**, elegir esa orden | "El remito acredita la entrega; la factura, el cobro. Son dos cosas distintas y el sistema las separa." |
+| 13 | Mostrar el comprobante con neto, IVA y total | "El importe no se tipea: sale de la orden. Y esa orden ya no aparece en la lista, porque se factura una sola vez." |
 
 **Si sobra tiempo:** mostrar el diagrama entidad-relación en Workbench y recorrer las
 relaciones.
@@ -570,10 +583,19 @@ Sí, en red local: la base y el backend corren en una máquina y las demás acce
 navegador. Haría falta ajustar la configuración del proxy y, para un uso real, agregar
 autenticación.
 
-**¿Cuánto tardarías en agregar facturación con AFIP?**
-Es un módulo aparte: haría falta la integración con el web service de AFIP, guardar el CAE
-y los datos fiscales del cliente. El modelo ya está preparado para colgarlo de
-`ordenes_servicio` sin rehacer nada.
+**¿Cuál es la diferencia entre el remito y la factura?**
+El remito acredita la entrega física del equipo; la factura, el cobro del trabajo. Son dos
+hechos distintos y pueden pasar en momentos distintos: el equipo se entrega hoy y se
+factura a fin de mes. Por eso son dos tablas y dos documentos.
+
+**¿Cuánto tardarías en hacerla fiscal, con AFIP?**
+El modelo ya está: habría que agregar el CAE y su vencimiento a `facturas` e integrar el
+web service de AFIP para pedirlo. La estructura de neto, alícuota, IVA y total no cambia.
+
+**¿Por qué guardás la alícuota de IVA en cada factura si siempre es 21?**
+Porque hoy es 21. Si mañana cambia, las facturas ya emitidas tienen que seguir mostrando
+la que se les aplicó. Es el mismo criterio por el que el precio del insumo se copia en la
+orden.
 
 **¿Qué fue lo más difícil?**
 La consulta del próximo vencimiento. No es obvia porque hay que tomar, para cada equipo, el

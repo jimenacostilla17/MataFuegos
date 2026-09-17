@@ -103,9 +103,9 @@ Versión usada en el desarrollo: **MySQL 8.0.46**.
    ejecutar el script completo.
 5. En el panel izquierdo, botón derecho sobre **SCHEMAS → Refresh All**.
 
-Tiene que aparecer el esquema `matafuegos` con **8 tablas**: `clientes`, `direcciones`,
-`matafuegos`, `mantenimientos`, `insumos`, `ordenes_servicio`, `orden_matafuegos` y
-`orden_insumos`.
+Tiene que aparecer el esquema `matafuegos` con **9 tablas**: `clientes`, `direcciones`,
+`matafuegos`, `mantenimientos`, `insumos`, `ordenes_servicio`, `orden_matafuegos`,
+`orden_insumos` y `facturas`.
 
 > ⚠️ El script empieza con `DROP DATABASE IF EXISTS matafuegos`. Eso significa que
 > **borra la base y todo lo cargado** antes de crearla de nuevo. En una máquina nueva es
@@ -126,6 +126,7 @@ Repetir los pasos 3 y 4 de arriba pero abriendo `db/datos-demo.sql`. Carga:
 | 28 mantenimientos | recargas y pruebas hidráulicas |
 | 8 insumos | tres por debajo del stock mínimo |
 | 3 órdenes | una entregada y dos pendientes |
+| 1 factura | emitida sobre la orden entregada |
 
 Las fechas son **relativas al día en que se ejecuta**, así que el panel de vencimientos
 siempre muestra equipos vencidos y equipos por vencer, sin importar cuándo se corra.
@@ -246,8 +247,8 @@ lugar. Eso está en `frontend/vite.config.js` y es lo que evita tener que config
 
 En el navegador, en **http://localhost:5173**:
 
-1. Se ven las cinco solapas: *Vencimientos*, *Clientes*, *Matafuegos*,
-   *Ordenes / Remitos*, *Insumos*.
+1. Se ven las seis solapas: *Vencimientos*, *Clientes*, *Matafuegos*,
+   *Ordenes / Remitos*, *Facturas*, *Insumos*.
 2. Entrá a **Clientes → Nuevo cliente**, cargá uno cualquiera y guardá. Si aparece en la
    lista, la cadena completa funciona: navegador → Vite → Express → MySQL y vuelta.
 3. Abrí **Clientes → la columna "direcciones"** y agregá una dirección.
